@@ -60,14 +60,14 @@ async function runCLI() {
     // 1. Run the data collection
     const results = await runAudit(TARGET_URLS);
 
-    // 2. Save data to public/data directory
-    const dataDir = path.join(__dirname, 'public', 'data');
+    // 2. Save data to public directory so GitHub Pages serves it
+    const dataDir = path.join(__dirname, 'public');
     if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
     }
     fs.writeFileSync(path.join(dataDir, 'audit-data.json'), JSON.stringify(results, null, 2));
     
-    // Sync to root data dir for API as well
+    // Sync to root data dir for API/local debugging
     const rootDataDir = path.join(__dirname, 'data');
     if (!fs.existsSync(rootDataDir)) fs.mkdirSync(rootDataDir);
     fs.writeFileSync(path.join(rootDataDir, 'audit-data.json'), JSON.stringify(results, null, 2));
