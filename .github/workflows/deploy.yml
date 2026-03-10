@@ -31,11 +31,6 @@ jobs:
 
       - name: Run Performance Audit
         run: npm run audit
-        env:
-          # Optional: Add your PageSpeed/WebPageTest API Keys here in GitHub Secrets
-          # PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
-          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
 
       - name: Upload PDF Report as Artifact
         uses: actions/upload-artifact@v4

@@ -10,8 +10,8 @@ async function runAudit(urls) {
         console.log(`\n===========================================`);
         console.log(`Starting comprehensive audit for ${url}`);
         
-        const psiData = await runPageSpeedInsights(url);
         const lighthouseData = await runLighthouse(url);
+        const psiData = await runPageSpeedInsights(url, lighthouseData);
         const waterfallData = simulateWaterfall(url);
         
         const recommendations = analyzePerformanceData(psiData, lighthouseData);

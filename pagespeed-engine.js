@@ -1,38 +1,31 @@
-const axios = require('axios');
+// The Performance Intelligence Engine now runs Lighthouse locally via headless 
+// Chrome rather than calling the Google API. This means zero API keys are required
+// to get PageSpeed equivalents!
 
-async function runPageSpeedInsights(url, apiKey = null) {
-    console.log(`Running PageSpeed Insights for: ${url}`);
+async function runPageSpeedInsights(url, lighthouseData) {
+    console.log(`Extracting Core Web Vitals for: ${url}`);
     
-    // We'll use the mobile strategy for our primary metrics.
-    let apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile`;
-    if (apiKey) {
-        apiUrl += `&key=${apiKey}`;
-    }
-
-    try {
-        const response = await axios.get(apiUrl);
-        const data = response.data;
-        const lighthouseResult = data.lighthouseResult;
-        const audits = lighthouseResult.audits;
-
-        return {
-            performanceScore: lighthouseResult.categories.performance.score * 100,
-            lcp: audits['largest-contentful-paint'].numericValue,
-            fcp: audits['first-contentful-paint'].numericValue,
-            speedIndex: audits['speed-index'].numericValue,
-            tbt: audits['total-blocking-time'].numericValue,
-            cls: audits['cumulative-layout-shift'].numericValue,
-            tti: audits['interactive'].numericValue,
-            coreWebVitals: {
-                lcpPass: audits['largest-contentful-paint'].numericValue < 2500,
-                clsPass: audits['cumulative-layout-shift'].numericValue < 0.1,
-                tbtPass: audits['total-blocking-time'].numericValue < 200,
-            }
-        };
-    } catch (error) {
-        console.error(`PageSpeed Insights failed for ${url}:`, error.response ? error.response.data : error.message);
+    // We already ran lighthouse locally, so we just extract the PSI equivalent scores
+    if (!lighthouseData || !lighthouseData.audits) {
         return null;
     }
+
+    const audits = lighthouseData.audits;
+
+    return {
+        performanceScore: audits['categories']?.performance?.score * 100 || 0,
+        lcp: audits['largest-contentful-paint']?.numericValue || 0,
+        fcp: audits['first-contentful-paint']?.numericValue || 0,
+        speedIndex: audits['speed-index']?.numericValue || 0,
+        tbt: audits['total-blocking-time']?.numericValue || 0,
+        cls: audits['cumulative-layout-shift']?.numericValue || 0,
+        tti: audits['interactive']?.numericValue || 0,
+        coreWebVitals: {
+            lcpPass: (audits['largest-contentful-paint']?.numericValue || 9999) < 2500,
+            clsPass: (audits['cumulative-layout-shift']?.numericValue || 99) < 0.1,
+            tbtPass: (audits['total-blocking-time']?.numericValue || 9999) < 200,
+        }
+    };
 }
 
 module.exports = { runPageSpeedInsights };
