@@ -3,6 +3,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 const { runAudit } = require('./analysis-engine');
 const express = require('express');
+const googleTrends = require('google-trends-api');
 
 const TARGET_URLS = [
     'https://blackvoyage.com/products/airtrunk-120l-vortex-vacuum-seal-carry-on-suitcase',
@@ -13,6 +14,12 @@ const TARGET_URLS = [
     'https://blackvoyage.com/collections/best-sellers',
     'https://blackvoyage.com',
     'https://blackvoyage.com/collections/all'
+];
+
+const COMPETITOR_URLS = [
+    'https://mybackvac.com/',
+    'https://airback.store/',
+    'https://www.nomatic.com/'
 ];
 
 async function generatePDFReport(port) {
@@ -57,20 +64,54 @@ async function runCLI() {
     console.log('--- PERFORMANCE INTELLIGENCE ENGINE ---');
     console.log(`Starting scheduled audit for ${TARGET_URLS.length} URL(s)...`);
 
-    // 1. Run the data collection
+    // 1. Run the data collection for target URLs
+    console.log(`\n--- Auditing Primary Targets ---`);
     const results = await runAudit(TARGET_URLS);
 
-    // 2. Save data to public directory so GitHub Pages serves it
+    // 2. Run the data collection for Competitors
+    console.log(`\n--- Auditing Top Competitors ---`);
+    const competitorResults = await runAudit(COMPETITOR_URLS);
+
+    // 3. Fetch US Google Trends Data for Market Intelligence
+    console.log(`\n--- Fetching US Market Intelligence (Google Trends) ---`);
+    let trendsData = null;
+    try {
+        const trendsRaw = await googleTrends.interestOverTime({
+            keyword: ['luggage', 'travel bags', 'carry on suitcase'], 
+            geo: 'US',
+            startTime: new Date(Date.now() - (30 * 24 * 60 * 60 * 1000)) // Last 30 days
+        });
+        trendsData = JSON.parse(trendsRaw);
+        console.log('Trends data fetched successfully.');
+    } catch (e) {
+        console.error("Failed to fetch Google Trends data:", e.message);
+    }
+
+    // Wrap everything into the final data payload
+    const finalData = {
+        timestamp: new Date().toISOString(),
+        ranking: results.ranking,
+        pages: results.pages,
+        competitors: competitorResults.pages.map(p => ({
+            url: p.url,
+            score: p.psiData?.performanceScore || 0,
+            lcp: p.psiData?.lcp || 0,
+            tti: p.psiData?.tti || 0,
+            jsWeight: p.lighthouseData?.jsBundle?.totalJsWeight || 0
+        })),
+        trends: trendsData
+    };
+
     const dataDir = path.join(__dirname, 'public');
     if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });
     }
-    fs.writeFileSync(path.join(dataDir, 'audit-data.json'), JSON.stringify(results, null, 2));
+    fs.writeFileSync(path.join(dataDir, 'audit-data.json'), JSON.stringify(finalData, null, 2));
     
     // Sync to root data dir for API/local debugging
     const rootDataDir = path.join(__dirname, 'data');
     if (!fs.existsSync(rootDataDir)) fs.mkdirSync(rootDataDir);
-    fs.writeFileSync(path.join(rootDataDir, 'audit-data.json'), JSON.stringify(results, null, 2));
+    fs.writeFileSync(path.join(rootDataDir, 'audit-data.json'), JSON.stringify(finalData, null, 2));
 
     console.log('Audit data saved to disk.');
 

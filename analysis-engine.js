@@ -12,7 +12,26 @@ async function runAudit(urls) {
         
         const lighthouseData = await runLighthouse(url);
         const psiData = await runPageSpeedInsights(url, lighthouseData);
-        const waterfallData = simulateWaterfall(url);
+        
+        const rawRequests = lighthouseData?.networkRequests || [];
+        const waterfallData = rawRequests.map(req => {
+            return {
+                url: req.url,
+                type: req.resourceType || 'Other',
+                // Use correct Lighthouse network timing properties (in ms)
+                duration: Math.max(0, (req.networkEndTime - req.networkRequestTime) || Number(req.duration) || 0),
+                start: req.networkRequestTime || Number(req.startTime) || 0,
+                dns: 0, connect: 0, ttfb: 0, download: 0, renderBlocking: false
+            };
+        }).sort((a,b) => a.start - b.start);
+
+        // Normalize start times so the first request begins at 0
+        if (waterfallData.length > 0) {
+            const minStart = waterfallData[0].start;
+            waterfallData.forEach(req => {
+                req.start = Math.max(0, req.start - minStart);
+            });
+        }
         
         const recommendations = analyzePerformanceData(psiData, lighthouseData);
 

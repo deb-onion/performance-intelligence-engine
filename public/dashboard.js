@@ -9,6 +9,7 @@ async function initDashboard() {
         }
 
         const data = await response.json();
+        window.dashboardData = data; // Store globally for PDF generator
         
         document.getElementById('loadingState').classList.add('hidden');
         document.getElementById('dashboardContent').classList.remove('hidden');
@@ -24,8 +25,11 @@ async function initDashboard() {
         
         // NEW FEATURES
         setupPageDetails(data.pages);
+        if (data.competitors) setupCompetitors(data);
+        if (data.trends) setupTrends(data.trends);
         generateAISummary(data);
         setupNavigation();
+        setupPdfDownload();
 
     } catch (error) {
         document.getElementById('loadingState').innerHTML = `
@@ -54,6 +58,17 @@ function setupNavigation() {
             // Show target section
             const targetId = link.getAttribute('data-target');
             document.getElementById(targetId).classList.remove('hidden');
+            
+            // D3 Waterfall fix: Re-render when the container is actually visible
+            if (targetId === 'view-waterfall' && window.dashboardData) {
+                const selector = document.getElementById('waterfallPageSelector');
+                if (selector && selector.value !== '') {
+                    const pageIndex = selector.value;
+                    if (window.dashboardData.pages[pageIndex]) {
+                        renderWaterfall(window.dashboardData.pages[pageIndex].waterfallData, 'waterfallContainer');
+                    }
+                }
+            }
         });
     });
 }
@@ -61,9 +76,22 @@ function setupNavigation() {
 function populateMetrics(data) {
     const pages = data.pages;
     const avgScore = Math.round(pages.reduce((acc, p) => acc + (p.psiData?.performanceScore || 0), 0) / pages.length);
-    
+    const avgLcp = (pages.reduce((acc, p) => acc + (p.psiData?.lcp || 0), 0) / pages.length / 1000).toFixed(2);
+    const avgSi = (pages.reduce((acc, p) => acc + (p.psiData?.speedIndex || 0), 0) / pages.length / 1000).toFixed(2);
+    const avgTbt = Math.round(pages.reduce((acc, p) => acc + (p.psiData?.tbt || 0), 0) / pages.length);
+    const avgJs = Math.round(pages.reduce((acc, p) => acc + (p.lighthouseData?.jsBundle?.totalJsWeight || 0), 0) / pages.length / 1024);
+
     document.getElementById('avgScore').textContent = avgScore;
     document.getElementById('avgScore').className = `value ${getScoreClass(avgScore)}`;
+    
+    const setMetric = (id, val, cls) => { const e = document.getElementById(id); if(e) { e.textContent = val; e.className = 'value ' + cls; } };
+
+    setMetric('avgLcp', `${avgLcp}s`, avgLcp <= 2.5 ? 'score-green' : avgLcp <= 4.0 ? 'score-orange' : 'score-red');
+    setMetric('avgSpeedIndex', `${avgSi}s`, avgSi <= 3.4 ? 'score-green' : avgSi <= 5.8 ? 'score-orange' : 'score-red');
+    setMetric('avgTbt', `${avgTbt}ms`, avgTbt <= 200 ? 'score-green' : avgTbt <= 600 ? 'score-orange' : 'score-red');
+    
+    const jsElem = document.getElementById('avgJs');
+    if (jsElem) jsElem.textContent = `${avgJs} KB`;
     
     document.getElementById('pagesCount').textContent = pages.length;
 
@@ -144,15 +172,15 @@ function renderPageDetails(page) {
             <h4>Speed Index</h4>
             <div class="val">${(psi.speedIndex / 1000).toFixed(2)}s</div>
         </div>
-        <div class="detail-card">
-            <h4>Total JS Payload</h4>
-            <div class="val">${(bundle.totalJsWeight / 1024).toFixed(0)} KB</div>
+        <div class="detail-card ${bundle.unusedJsWeight > 100 * 1024 ? 'fail' : 'pass'}">
+            <h4>Unused JS Payload</h4>
+            <div class="val">${(bundle.unusedJsWeight / 1024).toFixed(0)} KB</div>
         </div>
         <div class="detail-card">
-            <h4>Third-Party JS Payload</h4>
+            <h4>Third-Party JS</h4>
             <div class="val">${(bundle.thirdPartyJsWeight / 1024).toFixed(0)} KB</div>
         </div>
-        <div class="detail-card">
+        <div class="detail-card ${bundle.longTasks > 3 ? 'fail' : 'pass'}">
             <h4>Long Tasks (Main Thread)</h4>
             <div class="val">${bundle.longTasks}</div>
         </div>
@@ -198,22 +226,176 @@ function renderPageDetails(page) {
 function generateAISummary(data) {
     const container = document.getElementById('aiExecutiveSummary');
     const avgScore = Math.round(data.pages.reduce((acc, p) => acc + (p.psiData?.performanceScore || 0), 0) / data.pages.length);
-    let summary = `Our AI Diagnostics Engine has automatically analyzed <strong>${data.pages.length}</strong> pages across your entire domain structure. `;
+    const avgLcp = (data.pages.reduce((acc, p) => acc + (p.psiData?.lcp || 0), 0) / data.pages.length / 1000).toFixed(2);
+    
+    let summary = `Our Business Intelligence Engine has automatically verified <strong>${data.pages.length}</strong> pages across your domain structure. `;
     
     if (avgScore >= 90) {
-        summary += `Overall performance is <strong>Excellent</strong> with an average score of ${avgScore}/100. The site architecture is highly optimized for Core Web Vitals. `;
+        summary += `Overall technical performance is <strong>Excellent</strong> with an average score of ${avgScore}/100. `;
     } else if (avgScore >= 50) {
-        summary += `Overall performance is <strong>Moderate</strong> with an average score of ${avgScore}/100. There are significant engineering opportunities to improve Largest Contentful Paint (LCP) and reduce JavaScript payload weights to pass Core Web Vitals. `;
+        summary += `Overall technical performance is <strong>Moderate</strong> with an average score of ${avgScore}/100. There are significant engineering opportunities to improve Largest Contentful Paint (LCP) and reduce JavaScript execution time. `;
     } else {
-        summary += `Overall performance is <strong>Critical</strong> with an average score of ${avgScore}/100. Immediate development action is required to resolve rendering bottlenecks affecting user experience and SEO indexability. `;
+        summary += `Overall technical performance is <strong>Critical</strong> with an average score of ${avgScore}/100. Immediate development action is required to resolve rendering bottlenecks affecting user experience and SEO indexability. `;
     }
-    
-    const unoptimizedImages = data.pages.filter(p => p.lighthouseData?.images?.unoptimizedLCP).length;
-    if (unoptimizedImages > 0) {
-        summary += `Specifically, the AI detected unoptimized LCP images (e.g. missing WebP/AVIF formats) acting as blocking elements on <strong>${unoptimizedImages} out of ${data.pages.length}</strong> pages. Furthermore, third-party script execution is frequently triggering long tasks on the main thread across product pages and collections.`;
+
+    if (data.competitors && data.competitors.length > 0) {
+        // Find best competitor LCP
+        let bestCompLcp = 999;
+        let bestCompName = 'None';
+        data.competitors.forEach(c => {
+            const lcpSec = (c.lcp / 1000);
+            if (lcpSec > 0 && lcpSec < bestCompLcp) {
+                bestCompLcp = lcpSec;
+                bestCompName = cleanUrl(c.url);
+            }
+        });
+
+        if (bestCompLcp < 999) {
+            summary += `<br><br><strong>Competitive Intelligence:</strong> Your average LCP load time is <strong>${avgLcp}s</strong>. The fastest direct competitor in the US Market currently is <strong>${bestCompName}</strong> with an LCP of <strong>${bestCompLcp.toFixed(2)}s</strong>. `;
+            if (avgLcp > bestCompLcp) {
+                summary += `You are currently loading <strong>${(avgLcp - bestCompLcp).toFixed(2)}s slower</strong> than the market leader, representing a high risk of cart abandonment relative to industry standards.`;
+            } else {
+                summary += `You are currently outperforming the market leader by <strong>${(bestCompLcp - avgLcp).toFixed(2)}s</strong>, providing a measurable competitive advantage in user retention.`;
+            }
+        }
     }
     
     container.innerHTML = summary;
+}
+
+// ============== NEW FEATURE: PDF EXPORT ==============
+
+function setupPdfDownload() {
+    const btn = document.getElementById('downloadPdfBtn');
+    if (!btn) return;
+    
+    btn.addEventListener('click', () => {
+        const pageIndex = document.getElementById('detailPageSelector').value;
+        const page = window.dashboardData.pages[pageIndex];
+        const container = document.getElementById('view-drilldown');
+        
+        // Temporarily style container for PDF
+        const originalBg = container.style.background;
+        container.style.background = '#0b0f19'; // Force dark bg so text is visible
+        container.style.padding = '20px';
+        
+        const opt = {
+            margin:       0.5,
+            filename:     `PIE-Report-${cleanUrl(page.url).replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0b0f19' },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        
+        html2pdf().set(opt).from(container).save().then(() => {
+            container.style.background = originalBg;
+            container.style.padding = '';
+        });
+    });
+}
+
+// ============== NEW FEATURE: COMPETITOR BENCHMARKING ==============
+
+function setupCompetitors(data) {
+    const targetAvgLcp = (data.pages.reduce((acc, p) => acc + (p.psiData?.lcp || 0), 0) / data.pages.length / 1000).toFixed(2);
+    const targetAvgScore = Math.round(data.pages.reduce((acc, p) => acc + (p.psiData?.performanceScore || 0), 0) / data.pages.length);
+    
+    const competitors = data.competitors.map(c => ({
+        url: cleanUrl(c.url),
+        lcp: (c.lcp / 1000).toFixed(2),
+        score: Math.round(c.score)
+    }));
+
+    // Add our site as "You"
+    competitors.push({
+        url: 'BlackVoyage (You)',
+        lcp: targetAvgLcp,
+        score: targetAvgScore,
+        isYou: true
+    });
+
+    // Sort by LCP ascending (faster is better)
+    competitors.sort((a, b) => a.lcp - b.lcp);
+
+    const list = document.getElementById('competitorList');
+    list.innerHTML = '';
+    
+    competitors.forEach((c, index) => {
+        const li = document.createElement('li');
+        if (c.isYou) li.style.background = 'rgba(59, 130, 246, 0.1)';
+        li.innerHTML = `
+            <span class="rank">#${index+1}</span>
+            <span class="url" style="${c.isYou ? 'color: var(--accent-color); font-weight: 700;' : ''}">${c.url}</span>
+            <span class="score ${getScoreClass(c.score)}">${c.score}/100</span>
+        `;
+        list.appendChild(li);
+    });
+
+    const labels = competitors.map(c => c.url);
+    const lcps = competitors.map(c => c.lcp);
+    const colors = competitors.map(c => c.isYou ? 'rgba(59, 130, 246, 0.9)' : 'rgba(156, 163, 175, 0.5)');
+
+    createBarChart('competitorChart', labels, lcps, 'LCP (s)', colors, true);
+}
+
+// ============== NEW FEATURE: GOOGLE TRENDS ==============
+
+function setupTrends(trendsData) {
+    if (!trendsData || !trendsData.default || !trendsData.default.timelineData) return;
+    
+    const timeline = trendsData.default.timelineData;
+    const labels = timeline.map(t => t.formattedTime);
+    const datasets = [];
+
+    // Assuming we passed multiple keywords like ['luggage', 'travel bags']
+    // googleTrends returns values as an array corresponding to the keywords
+    if (timeline.length > 0 && timeline[0].value.length > 0) {
+        const keywords = ['luggage', 'travel bags', 'carry on suitcase'];
+        const colors = ['rgba(59, 130, 246, 0.8)', 'rgba(139, 92, 246, 0.8)', 'rgba(16, 185, 129, 0.8)'];
+        
+        for (let i = 0; i < timeline[0].value.length; i++) {
+            datasets.push({
+                label: keywords[i] || `Keyword ${i+1}`,
+                data: timeline.map(t => t.value[i]),
+                borderColor: colors[i % colors.length],
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                tension: 0.3,
+                pointRadius: 0
+            });
+        }
+    }
+
+    const ctx = document.getElementById('trendsChart');
+    if (!ctx) return;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#e5e7eb', font: { family: 'Outfit' } } },
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    max: 100,
+                    ticks: { color: '#9ca3af', font: { family: 'Inter' } }, 
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' } 
+                },
+                x: { 
+                    ticks: { color: '#9ca3af', font: { family: 'Inter' }, maxRotation: 45, minRotation: 45 }, 
+                    grid: { display: false } 
+                }
+            }
+        }
+    });
 }
 
 // ============== CHARTS & INSIGHTS (Existing Logic) ==============

@@ -48,6 +48,7 @@ async function runLighthouse(url) {
 
         const largestImage = audits['largest-contentful-paint-element']?.details?.items?.[0]?.node?.snippet || "None";
         const longTasks = audits['long-tasks']?.details?.items?.length || 0;
+        const rawRequests = audits['network-requests']?.details?.items || [];
 
         await chrome.kill();
 
@@ -62,6 +63,7 @@ async function runLighthouse(url) {
                 largestImageSnippet: largestImage,
                 unoptimizedLCP: audits['modern-image-formats']?.score < 1,
             },
+            networkRequests: rawRequests,
             categories: lhr.categories,
             audits: lhr.audits // raw audits for AI
         };

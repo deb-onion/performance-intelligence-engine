@@ -67,28 +67,36 @@ function renderWaterfall(data, containerId) {
     data.forEach((item, i) => {
         const group = svg.append("g").attr("transform", `translate(0, ${y(i)})`);
 
+        // Sanitize missing data to prevent silent SVG NaN coordinate failures
+        const safeStart = Number(item.start) || 0;
+        const safeDuration = Number(item.duration) || 10;
+        const safeDns = Number(item.dns) || 0;
+        const safeConnect = Number(item.connect) || 0;
+        const safeTtfb = Number(item.ttfb) || 0;
+        const safeDownload = Number(item.download) || 0;
+
         // Helper to draw segment
-        const drawSeg = (start, duration, color) => {
-            if (duration > 0) {
+        const drawSeg = (startVal, durationVal, color) => {
+            if (durationVal > 0) {
                 group.append("rect")
-                    .attr("x", x(start))
+                    .attr("x", Math.max(0, x(startVal)))
                     .attr("y", 0)
-                    .attr("width", x(duration))
+                    .attr("width", Math.max(1, x(durationVal))) // Minimum 1px width
                     .attr("height", y.bandwidth())
                     .attr("fill", color)
                     .attr("rx", 2);
             }
         };
 
-        // Render waterfall phases: DNS, Connect, TTFB, Download
-        let currentOffset = item.start;
+        // Render waterfall phases
+        let currentOffset = safeStart;
         
         // Render blocking indicator border
         if (item.renderBlocking) {
              group.append("rect")
-                .attr("x", x(item.start) - 2)
+                .attr("x", Math.max(0, x(safeStart) - 2))
                 .attr("y", -2)
-                .attr("width", x(item.duration) + 4)
+                .attr("width", Math.max(1, x(safeDuration) + 4))
                 .attr("height", y.bandwidth() + 4)
                 .attr("fill", "none")
                 .attr("stroke", "#f85149")
@@ -96,15 +104,21 @@ function renderWaterfall(data, containerId) {
                 .attr("rx", 3);
         }
 
-        drawSeg(currentOffset, item.dns, '#2ea043'); currentOffset += item.dns;
-        drawSeg(currentOffset, item.connect, '#d29922'); currentOffset += item.connect;
-        drawSeg(currentOffset, item.ttfb, '#bf4b8a'); currentOffset += item.ttfb;
-        drawSeg(currentOffset, item.download, '#58a6ff');
+        if (safeDns === 0 && safeConnect === 0 && safeTtfb === 0 && safeDownload === 0 && safeDuration > 0) {
+            // Fallback for flat duration data (from Lighthouse)
+            drawSeg(currentOffset, safeDuration, '#58a6ff');
+        } else {
+            // Detailed WebPageTest timings
+            drawSeg(currentOffset, safeDns, '#2ea043'); currentOffset += safeDns;
+            drawSeg(currentOffset, safeConnect, '#d29922'); currentOffset += safeConnect;
+            drawSeg(currentOffset, safeTtfb, '#bf4b8a'); currentOffset += safeTtfb;
+            drawSeg(currentOffset, safeDownload, '#58a6ff');
+        }
 
         // Tooltip text
-        const totalText = `${item.duration}ms`;
+        const totalText = `${safeDuration.toFixed(1)}ms`;
         group.append("text")
-            .attr("x", x(item.start + item.duration) + 5)
+            .attr("x", x(safeStart + safeDuration) + 5)
             .attr("y", y.bandwidth() / 2 + 4)
             .text(totalText)
             .attr("fill", "#8b949e")

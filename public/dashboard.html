@@ -16,6 +16,9 @@
     <!-- Chart.js & D3.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- HTML2PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -44,9 +47,13 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     Waterfall Analysis
                 </a>
-                <a href="#" data-target="view-bundle">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    JS & Assets
+                <a href="#" data-target="view-competitors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    Competitor Benchmarks
+                </a>
+                <a href="#" data-target="view-trends">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    Market Intelligence
                 </a>
                 <a href="#" data-target="view-recommendations">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
@@ -78,6 +85,22 @@
                             <h3>Avg Performance Score <span class="tooltip-icon" data-tooltip="Aggregated Lighthouse performance score (0-100) across all audited URLs. Higher is better.">i</span></h3>
                             <div class="value" id="avgScore">--</div>
                         </div>
+                        <div class="metric-card gradient-card">
+                            <h3>Avg True Load Time <span class="tooltip-icon" data-tooltip="The average Largest Contentful Paint (LCP) in seconds across all tracked pages. Lower is better.">i</span></h3>
+                            <div class="value" id="avgLcp">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Avg Speed Index <span class="tooltip-icon" data-tooltip="How quickly the contents of a page are visibly populated. Lower is better.">i</span></h3>
+                            <div class="value" id="avgSpeedIndex">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Avg Blocking Time <span class="tooltip-icon" data-tooltip="Total Blocking Time measures the total time the page is blocked from responding to user input.">i</span></h3>
+                            <div class="value" id="avgTbt">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Avg JS Payload <span class="tooltip-icon" data-tooltip="Average Total JavaScript bundle size.">i</span></h3>
+                            <div class="value" id="avgJs">--</div>
+                        </div>
                         <div class="metric-card">
                             <h3>Fastest Page</h3>
                             <div class="value url-value" id="fastestPage">--</div>
@@ -106,6 +129,18 @@
                             <h2>Score Comparison <span class="tooltip-icon" data-tooltip="Compares the 0-100 Performance Score across all audited pages.">i</span></h2>
                             <canvas id="scoreChart"></canvas>
                         </section>
+
+                        <section class="panel chart-panel">
+                            <h2>JavaScript Payload Weight <span class="tooltip-icon" data-tooltip="Visualizes the Total vs. Unused vs. Third-Party JavaScript. Large JS payloads slow down the main thread and affect TTI.">i</span></h2>
+                            <canvas id="bundleChart"></canvas>
+                        </section>
+
+                        <section class="panel list-panel">
+                            <h2>Asset Insights</h2>
+                            <div id="assetInsightsList" class="insights-container">
+                                <!-- Populated via JS -->
+                            </div>
+                        </section>
                     </div>
                 </div>
 
@@ -113,9 +148,15 @@
                 <div id="view-drilldown" class="view-section hidden">
                     <section class="panel full-width">
                         <h2>Single Page Deep Dive <span class="tooltip-icon" data-tooltip="Detailed, page-level metrics to isolate bottlenecks on specific URLs.">i</span></h2>
-                        <div class="selector-controls">
-                            <label for="detailPageSelector">Select Page to Analyze:</label>
-                            <select id="detailPageSelector"></select>
+                        <div class="selector-controls" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                            <div>
+                                <label for="detailPageSelector">Select Page to Analyze:</label>
+                                <select id="detailPageSelector"></select>
+                            </div>
+                            <button id="downloadPdfBtn" class="download-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Download Report
+                            </button>
                         </div>
                         <div id="pageDetailContainer" class="page-detail-grid">
                             <!-- Populated via JS -->
@@ -166,21 +207,33 @@
                     </section>
                 </div>
 
-                <!-- JS & ASSETS SECTION -->
-                <div id="view-bundle" class="view-section hidden">
-                    <div class="two-col-layout">
-                        <section class="panel chart-panel">
-                            <h2>JavaScript Payload Weight <span class="tooltip-icon" data-tooltip="Visualizes the Total vs. Unused vs. Third-Party JavaScript. Large JS payloads slow down the main thread and affect TTI.">i</span></h2>
-                            <canvas id="bundleChart"></canvas>
-                        </section>
+                <!-- COMPETITORS SECTION -->
+                <div id="view-competitors" class="view-section hidden">
+                    <section class="panel full-width">
+                        <h2>Competitor Benchmarking (US Market) <span class="tooltip-icon" data-tooltip="Live Lighthouse data comparing BlackVoyage against top direct competitors (MyBackVac, Airback, Nomatic).">i</span></h2>
+                        <p class="chart-desc">All competitor data is audited at exactly the same time under identical conditions.</p>
+                        <div class="two-col-layout">
+                            <section class="panel list-panel" style="margin-bottom:0; box-shadow:none;">
+                                <h3>Score Breakdown</h3>
+                                <ul id="competitorList" class="leaderboard" style="margin-top:20px;">
+                                    <!-- Populated via JS -->
+                                </ul>
+                            </section>
+                            <section class="panel chart-panel" style="margin-bottom:0; box-shadow:none;">
+                                <h3>Head-to-Head Loading Speed (LCP)</h3>
+                                <canvas id="competitorChart"></canvas>
+                            </section>
+                        </div>
+                    </section>
+                </div>
 
-                        <section class="panel list-panel">
-                            <h2>Asset Insights</h2>
-                            <div id="assetInsightsList" class="insights-container">
-                                <!-- Populated via JS -->
-                            </div>
-                        </section>
-                    </div>
+                <!-- MARKET INTELLIGENCE SECTION -->
+                <div id="view-trends" class="view-section hidden">
+                    <section class="panel full-width">
+                        <h2>Market Intelligence (Google Trends) <span class="tooltip-icon" data-tooltip="Past 30 Days of Google Search Demand in the United States. Used to correlate technical performance with macroeconomic demand seasons.">i</span></h2>
+                        <p class="chart-desc">Macroeconomic search interest for "luggage", "travel bags", and "carry on suitcase". Base volume indexed to 100.</p>
+                        <canvas id="trendsChart" style="max-height: 400px; width: 100%;"></canvas>
+                    </section>
                 </div>
 
                 <!-- AI RECOMMENDATIONS SECTION -->
