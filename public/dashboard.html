@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -22,23 +22,46 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
-                <div class="logo"></div>
+                <div class="logo-container">
+                    <div class="logo"></div>
+                </div>
                 <h2>PIE <span>Analytics</span></h2>
             </div>
-            <nav>
-                <a href="#overview" class="active">Overview</a>
-                <a href="#vitals">Core Web Vitals</a>
-                <a href="#waterfall">Waterfall Analysis</a>
-                <a href="#bundle">JS & Assets</a>
-                <a href="#recommendations">AI Diagnostics</a>
+            <nav id="sidebarNav">
+                <a href="#" data-target="view-overview" class="active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Overview
+                </a>
+                <a href="#" data-target="view-drilldown">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Page Drilldown
+                </a>
+                <a href="#" data-target="view-vitals">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    Core Web Vitals
+                </a>
+                <a href="#" data-target="view-waterfall">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    Waterfall Analysis
+                </a>
+                <a href="#" data-target="view-bundle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    JS & Assets
+                </a>
+                <a href="#" data-target="view-recommendations">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    AI Diagnostics
+                </a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="content">
             <header>
-                <h1>Performance Intelligence Report</h1>
-                <div class="date-stamp" id="dateStamp">Loading data...</div>
+                <div>
+                    <h1>Performance Intelligence Report</h1>
+                    <div class="date-stamp" id="dateStamp">Loading data...</div>
+                </div>
             </header>
 
             <div id="loadingState">
@@ -47,86 +70,136 @@
             </div>
 
             <div id="dashboardContent" class="hidden">
-                <!-- Top Metrics Row -->
-                <section class="metrics-grid">
-                    <div class="metric-card">
-                        <h3>Avg Performance Score</h3>
-                        <div class="value" id="avgScore">--</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Fastest Page</h3>
-                        <div class="value" style="font-size: 1.2rem; word-break: break-all;" id="fastestPage">--</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Slowest Page</h3>
-                        <div class="value" style="font-size: 1.2rem; word-break: break-all;" id="slowestPage">--</div>
-                    </div>
-                    <div class="metric-card">
-                        <h3>Pages Analyzed</h3>
-                        <div class="value" id="pagesCount">--</div>
-                    </div>
-                </section>
+            
+                <!-- OVERVIEW SECTION -->
+                <div id="view-overview" class="view-section active">
+                    <section class="metrics-grid">
+                        <div class="metric-card gradient-card">
+                            <h3>Avg Performance Score <span class="tooltip-icon" data-tooltip="Aggregated Lighthouse performance score (0-100) across all audited URLs. Higher is better.">i</span></h3>
+                            <div class="value" id="avgScore">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Fastest Page</h3>
+                            <div class="value url-value" id="fastestPage">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Slowest Page</h3>
+                            <div class="value url-value" id="slowestPage">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Pages Analyzed</h3>
+                            <div class="value" id="pagesCount">--</div>
+                        </div>
+                    </section>
 
-                <div class="two-col-layout">
-                    <!-- Leaderboard -->
-                    <section class="panel list-panel">
-                        <h2>Performance Leaderboard</h2>
-                        <ul id="leaderboardList" class="leaderboard">
+                    <div class="two-col-layout">
+                        <!-- Leaderboard -->
+                        <section class="panel list-panel">
+                            <h2>Performance Leaderboard</h2>
+                            <ul id="leaderboardList" class="leaderboard">
+                                <!-- Populated via JS -->
+                            </ul>
+                        </section>
+
+                        <!-- Bar Chart -->
+                        <section class="panel chart-panel">
+                            <h2>Score Comparison <span class="tooltip-icon" data-tooltip="Compares the 0-100 Performance Score across all audited pages.">i</span></h2>
+                            <canvas id="scoreChart"></canvas>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- DRILLDOWN SECTION -->
+                <div id="view-drilldown" class="view-section hidden">
+                    <section class="panel full-width">
+                        <h2>Single Page Deep Dive <span class="tooltip-icon" data-tooltip="Detailed, page-level metrics to isolate bottlenecks on specific URLs.">i</span></h2>
+                        <div class="selector-controls">
+                            <label for="detailPageSelector">Select Page to Analyze:</label>
+                            <select id="detailPageSelector"></select>
+                        </div>
+                        <div id="pageDetailContainer" class="page-detail-grid">
                             <!-- Populated via JS -->
-                        </ul>
-                    </section>
-
-                    <!-- Bar Chart -->
-                    <section class="panel chart-panel">
-                        <h2>Score Comparison</h2>
-                        <canvas id="scoreChart"></canvas>
-                    </section>
-                </div>
-
-                <div class="two-col-layout">
-                    <section class="panel chart-panel">
-                        <h2>LCP Comparison (ms)</h2>
-                        <canvas id="lcpChart"></canvas>
-                    </section>
-
-                    <section class="panel chart-panel">
-                        <h2>Speed Index Comparison</h2>
-                        <canvas id="speedIndexChart"></canvas>
+                        </div>
+                        
+                        <!-- AI Specific Insights per page -->
+                        <div class="page-specific-ai hidden" id="pageSpecificAi">
+                            <h3 style="margin-top: 30px; margin-bottom: 15px; color: #fff;">Page-Level AI Diagnostics</h3>
+                            <div id="pageSpecificAiContainer" class="ai-container"></div>
+                        </div>
                     </section>
                 </div>
 
-                <!-- Waterfall Section -->
-                <section class="panel full-width">
-                    <h2>Network Waterfall Analysis</h2>
-                    <div class="selector-controls">
-                        <label for="pageSelector">Select Page:</label>
-                        <select id="waterfallPageSelector"></select>
+                <!-- VITALS SECTION -->
+                <div id="view-vitals" class="view-section hidden">
+                    <div class="two-col-layout">
+                        <section class="panel chart-panel">
+                            <h2>First Contentful Paint (FCP) <span class="tooltip-icon" data-tooltip="FCP marks the time at which the first text or image is painted. A fast FCP reassures the user that the page is loading. Good: < 1.8s.">i</span></h2>
+                            <canvas id="fcpChart"></canvas>
+                        </section>
+
+                        <section class="panel chart-panel">
+                            <h2>Largest Contentful Paint (LCP) <span class="tooltip-icon" data-tooltip="LCP measures loading performance. To provide a good user experience, LCP should occur within 2.5 seconds of when the page first starts loading.">i</span></h2>
+                            <canvas id="lcpChart"></canvas>
+                        </section>
+                        
+                        <section class="panel chart-panel">
+                            <h2>Time to Interactive (TTI) <span class="tooltip-icon" data-tooltip="TTI measures how long it takes a page to become fully interactive and reliably respond to user input. Good: < 3.8s.">i</span></h2>
+                            <canvas id="ttiChart"></canvas>
+                        </section>
+
+                        <section class="panel chart-panel">
+                            <h2>Speed Index <span class="tooltip-icon" data-tooltip="Speed Index shows how quickly the contents of a page are visibly populated. Lower is better. Good: < 3.4s.">i</span></h2>
+                            <canvas id="speedIndexChart"></canvas>
+                        </section>
                     </div>
-                    <div id="waterfallContainer"></div>
-                </section>
+                </div>
 
-                <!-- Assets & Bundle -->
-                <div class="two-col-layout">
-                    <section class="panel chart-panel">
-                        <h2>JavaScript Payload Weight</h2>
-                        <canvas id="bundleChart"></canvas>
+                <!-- WATERFALL SECTION -->
+                <div id="view-waterfall" class="view-section hidden">
+                    <section class="panel full-width">
+                        <h2>Network Waterfall Analysis <span class="tooltip-icon" data-tooltip="Visualizes the sequential and concurrent loading of network assets. Look for long horizontal rectangles blocking the main thread.">i</span></h2>
+                        <div class="selector-controls">
+                            <label for="waterfallPageSelector">Select Page:</label>
+                            <select id="waterfallPageSelector"></select>
+                        </div>
+                        <div id="waterfallContainer"></div>
+                    </section>
+                </div>
+
+                <!-- JS & ASSETS SECTION -->
+                <div id="view-bundle" class="view-section hidden">
+                    <div class="two-col-layout">
+                        <section class="panel chart-panel">
+                            <h2>JavaScript Payload Weight <span class="tooltip-icon" data-tooltip="Visualizes the Total vs. Unused vs. Third-Party JavaScript. Large JS payloads slow down the main thread and affect TTI.">i</span></h2>
+                            <canvas id="bundleChart"></canvas>
+                        </section>
+
+                        <section class="panel list-panel">
+                            <h2>Asset Insights</h2>
+                            <div id="assetInsightsList" class="insights-container">
+                                <!-- Populated via JS -->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- AI RECOMMENDATIONS SECTION -->
+                <div id="view-recommendations" class="view-section hidden">
+                    <section class="panel full-width gradient-border">
+                        <h2><span class="ai-sparkle">✨</span> AI Executive Summary</h2>
+                        <div id="aiExecutiveSummary" class="ai-summary-text">
+                            <!-- Populated via JS -->
+                        </div>
                     </section>
 
-                    <section class="panel list-panel">
-                        <h2>Asset Insights</h2>
-                        <div id="assetInsightsList" class="insights-container">
+                    <section class="panel full-width">
+                        <h2>Global Actionable Insights <span class="tooltip-icon" data-tooltip="Aggregated AI recommendations gathered across the entire application audit.">i</span></h2>
+                        <div id="aiRecommendations" class="ai-container">
                             <!-- Populated via JS -->
                         </div>
                     </section>
                 </div>
 
-                <!-- AI Recommendations -->
-                <section class="panel full-width">
-                    <h2>AI-Driven Recommendations</h2>
-                    <div id="aiRecommendations" class="ai-container">
-                        <!-- Populated via JS -->
-                    </div>
-                </section>
             </div>
         </main>
     </div>
