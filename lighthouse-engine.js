@@ -1,12 +1,13 @@
-const chromeLauncher = require('chrome-launcher');
+// Dynamically importing ESM modules in CommonJS
 
 async function runLighthouse(url) {
     console.log(`Running Lighthouse locally for: ${url}`);
     let chrome;
     try {
-        chrome = await chromeLauncher.launch({ chromeFlags: ['--headless', '--no-sandbox'] });
+        const { launch } = await import('chrome-launcher');
+        chrome = await launch({ chromeFlags: ['--headless', '--no-sandbox'] });
         
-        // Lighthouse 10+ is an ES Module. We must dynamically import it in CommonJS environments (like GitHub Actions Node 18).
+        // Lighthouse 10+ is an ES Module. We must dynamically import it.
         const { default: lighthouse } = await import('lighthouse');
         
         const options = {
