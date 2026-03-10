@@ -25,10 +25,12 @@ async function generatePDFReport(port) {
         fs.mkdirSync(reportsDir);
     }
 
-    const puppeteerOptions = { headless: 'new' };
+    const puppeteerOptions = { 
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    };
     if (process.env.PUPPETEER_EXECUTABLE_PATH) {
         puppeteerOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-        puppeteerOptions.args = ['--no-sandbox', '--disable-setuid-sandbox'];
     }
     const browser = await puppeteer.launch(puppeteerOptions);
     const page = await browser.newPage();
