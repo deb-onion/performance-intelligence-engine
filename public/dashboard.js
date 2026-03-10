@@ -269,28 +269,60 @@ function setupPdfDownload() {
     const btn = document.getElementById('downloadPdfBtn');
     if (!btn) return;
     
+    // Store original HTML of the button so we can restore it
+    const originalBtnHtml = btn.innerHTML;
+    
     btn.addEventListener('click', () => {
-        const pageIndex = document.getElementById('detailPageSelector').value;
-        const page = window.dashboardData.pages[pageIndex];
-        const container = document.getElementById('view-drilldown');
+        // Prevent multiple clicks
+        if (btn.disabled) return;
         
-        // Temporarily style container for PDF
-        const originalBg = container.style.background;
-        container.style.background = '#0b0f19'; // Force dark bg so text is visible
-        container.style.padding = '20px';
+        // Show loading state
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+        btn.innerHTML = `
+            <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+                <path d="M12 2a10 10 0 0 1 10 10"></path>
+            </svg>
+            Generating...
+        `;
         
-        const opt = {
-            margin:       0.5,
-            filename:     `PIE-Report-${cleanUrl(page.url).replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0b0f19' },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        
-        html2pdf().set(opt).from(container).save().then(() => {
-            container.style.background = originalBg;
-            container.style.padding = '';
-        });
+        // Allow the browser to physically paint the loading state to the screen natively
+        // before locking up the main JS thread via massive Canvas rendering
+        setTimeout(() => {
+            const pageIndex = document.getElementById('detailPageSelector').value;
+            const page = window.dashboardData.pages[pageIndex];
+            const container = document.getElementById('view-drilldown');
+            
+            // Temporarily style container for PDF
+            const originalBg = container.style.background;
+            container.style.background = '#0b0f19'; // Force dark bg so text is visible
+            container.style.padding = '20px';
+            
+            const opt = {
+                margin:       0.5,
+                filename:     `PIE-Report-${cleanUrl(page.url).replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0b0f19' },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(container).save().then(() => {
+                // Restore container styles
+                container.style.background = originalBg;
+                container.style.padding = '';
+                
+                // Restore button state
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.innerHTML = originalBtnHtml;
+            }).catch((err) => {
+                console.error("PDF generation failed", err);
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.innerHTML = "Error Generating PDF";
+            });
+        }, 150);
     });
 }
 
