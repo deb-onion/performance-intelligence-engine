@@ -31,6 +31,9 @@ jobs:
 
       - name: Run Performance Audit
         run: npm run audit
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
 
       - name: Upload PDF Report as Artifact
         uses: actions/upload-artifact@v4
