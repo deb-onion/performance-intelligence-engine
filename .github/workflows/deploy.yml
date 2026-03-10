@@ -12,6 +12,10 @@ on:
 jobs:
   audit_and_deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     
     steps:
       - name: Checkout Repository
@@ -39,11 +43,24 @@ jobs:
           name: performance-audit-report
           path: reports/performance-audit.pdf
 
-      - name: Deploy Dashboard to Cloudflare Pages
-        uses: cloudflare/pages-action@1
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v2
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: 'performance-intelligence-engine'
-          directory: 'public'
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          path: './public'
+
+  deploy:
+    needs: audit_and_deploy
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
