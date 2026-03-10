@@ -1,0 +1,983 @@
+{
+  "timestamp": "2026-03-10T15:00:25.874Z",
+  "ranking": [
+    {
+      "rank": 1,
+      "url": "https://blackvoyage.com/products/airtrunk-120l-vortex-vacuum-seal-carry-on-suitcase",
+      "score": 0,
+      "lcp": 7879.977000000001
+    },
+    {
+      "rank": 2,
+      "url": "https://blackvoyage.com/products/aero-vacuum-compression-backpack",
+      "score": 0,
+      "lcp": 9237.595500000001
+    },
+    {
+      "rank": 3,
+      "url": "https://blackvoyage.com/products/vortex-carry-on",
+      "score": 0,
+      "lcp": 7845.974
+    },
+    {
+      "rank": 4,
+      "url": "https://blackvoyage.com/products/zephyr",
+      "score": 0,
+      "lcp": 10645.399
+    },
+    {
+      "rank": 5,
+      "url": "https://blackvoyage.com/products/aircabin-select",
+      "score": 0,
+      "lcp": 8646.368000000002
+    },
+    {
+      "rank": 6,
+      "url": "https://blackvoyage.com/collections/best-sellers",
+      "score": 0,
+      "lcp": 6672.6095000000005
+    },
+    {
+      "rank": 7,
+      "url": "https://blackvoyage.com",
+      "score": 0,
+      "lcp": 7398.355
+    },
+    {
+      "rank": 8,
+      "url": "https://blackvoyage.com/collections/all",
+      "score": 0,
+      "lcp": 7126.5599999999995
+    }
+  ],
+  "pages": [
+    {
+      "url": "https://blackvoyage.com/products/airtrunk-120l-vortex-vacuum-seal-carry-on-suitcase",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 7879.977000000001,
+        "fcp": 5854.977000000001,
+        "speedIndex": 21533.62253780404,
+        "tbt": 9990.000000000004,
+        "cls": 0.4836558969843956,
+        "tti": 51868.27380000001,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3891885,
+          "unusedJsWeight": 1622640,
+          "thirdPartyJsWeight": 3361969,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/products/airtrunk-120l-vortex-vacuum-seal-carry-on-suitcase",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3801KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1585KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/products/aero-vacuum-compression-backpack",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 9237.595500000001,
+        "fcp": 5812.29,
+        "speedIndex": 15405.78230626023,
+        "tbt": 16464.999999999985,
+        "cls": 0.4766954900966155,
+        "tti": 51399.330449999994,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3846323,
+          "unusedJsWeight": 1597082,
+          "thirdPartyJsWeight": 3316180,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/products/aero-vacuum-compression-backpack",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3756KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1560KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/products/vortex-carry-on",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 7845.974,
+        "fcp": 6045.974,
+        "speedIndex": 22960.387413226046,
+        "tbt": 17953.5,
+        "cls": 0.4774976701388479,
+        "tti": 74596.4756,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3844818,
+          "unusedJsWeight": 1633948,
+          "thirdPartyJsWeight": 3314889,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/products/vortex-carry-on",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3755KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1596KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/products/zephyr",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 10645.399,
+        "fcp": 6295.398999999999,
+        "speedIndex": 22032.462188941605,
+        "tbt": 15665.601250000007,
+        "cls": 0.4766954900966155,
+        "tti": 66525.24012500001,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3844379,
+          "unusedJsWeight": 1648037,
+          "thirdPartyJsWeight": 3314358,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/products/zephyr",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3754KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1609KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/products/aircabin-select",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 8646.368000000002,
+        "fcp": 5721.368,
+        "speedIndex": 24277.445093734357,
+        "tbt": 26830.50000000001,
+        "cls": 0.4766954900966155,
+        "tti": 82565.86800000002,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3893458,
+          "unusedJsWeight": 1612205,
+          "thirdPartyJsWeight": 3362965,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/products/aircabin-select",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3802KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1574KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/collections/best-sellers",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 6672.6095000000005,
+        "fcp": 4331.178,
+        "speedIndex": 16441.76497114839,
+        "tbt": 13195.001749999994,
+        "cls": 0.010996133341404252,
+        "tti": 43555.11045,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": true,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3514948,
+          "unusedJsWeight": 1454831,
+          "thirdPartyJsWeight": 3173269,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/collections/best-sellers",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3433KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1421KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 7398.355,
+        "fcp": 4725.095,
+        "speedIndex": 20631.363342211152,
+        "tbt": 17813.0455,
+        "cls": 0,
+        "tti": 71501.31195000002,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": false,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3652341,
+          "unusedJsWeight": 1494707,
+          "thirdPartyJsWeight": 3310718,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3567KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1460KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    },
+    {
+      "url": "https://blackvoyage.com/collections/all",
+      "psiData": {
+        "performanceScore": 0,
+        "lcp": 7126.5599999999995,
+        "fcp": 4426.5599999999995,
+        "speedIndex": 15565.417868449815,
+        "tbt": 12955.499999999998,
+        "cls": 0.010996133341404252,
+        "tti": 46180.0895,
+        "coreWebVitals": {
+          "lcpPass": false,
+          "clsPass": true,
+          "tbtPass": false
+        }
+      },
+      "lighthouseData": {
+        "jsBundle": {
+          "totalJsWeight": 3606954,
+          "unusedJsWeight": 1529288,
+          "thirdPartyJsWeight": 3174068,
+          "longTasks": 20
+        },
+        "images": {
+          "largestImageSnippet": "None",
+          "unoptimizedLCP": true
+        }
+      },
+      "waterfallData": [
+        {
+          "url": "https://blackvoyage.com/collections/all",
+          "type": "Document",
+          "duration": 120,
+          "start": 0,
+          "dns": 20,
+          "connect": 30,
+          "ttfb": 60,
+          "download": 10,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/theme.css",
+          "type": "Stylesheet",
+          "duration": 80,
+          "start": 150,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 30,
+          "download": 20,
+          "renderBlocking": true
+        },
+        {
+          "url": "https://cdn.shopify.com/s/files/vendor.js",
+          "type": "Script",
+          "duration": 300,
+          "start": 160,
+          "dns": 10,
+          "connect": 20,
+          "ttfb": 100,
+          "download": 170,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://blackvoyage.com/hero-image.jpg",
+          "type": "Image",
+          "duration": 400,
+          "start": 200,
+          "dns": 15,
+          "connect": 25,
+          "ttfb": 150,
+          "download": 210,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://connect.facebook.net/en_US/fbevents.js",
+          "type": "Script",
+          "duration": 150,
+          "start": 300,
+          "dns": 30,
+          "connect": 40,
+          "ttfb": 50,
+          "download": 30,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://www.google-analytics.com/analytics.js",
+          "type": "Script",
+          "duration": 120,
+          "start": 310,
+          "dns": 25,
+          "connect": 35,
+          "ttfb": 40,
+          "download": 20,
+          "renderBlocking": false
+        },
+        {
+          "url": "https://widget.intercom.io/widget/123",
+          "type": "Script",
+          "duration": 250,
+          "start": 500,
+          "dns": 40,
+          "connect": 50,
+          "ttfb": 60,
+          "download": 100,
+          "renderBlocking": false
+        }
+      ],
+      "recommendations": [
+        "Convert your Largest Contentful Paint image to WebP or AVIF format to reduce LCP latency.",
+        "Reduce your JavaScript payload. You are currently shipping 3522KB of JS. Provide compressed, modern bundles.",
+        "Remove unused JavaScript. You have 1493KB of unused code dragging down performance.",
+        "Your main thread is frequently blocked by 20 long tasks. Defer non-critical scripts.",
+        "Third-party scripts (like Shopify Apps, analytics, chat widgets) are heavily impacting load times. Audit your active Shopify apps and remove unnecessary widgets.",
+        "First Contentful Paint is slow. Eliminate render-blocking resources, especially CSS loaded in the <head>."
+      ]
+    }
+  ]
+}

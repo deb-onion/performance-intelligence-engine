@@ -6,14 +6,15 @@ async function runPageSpeedInsights(url, lighthouseData) {
     console.log(`Extracting Core Web Vitals for: ${url}`);
     
     // We already ran lighthouse locally, so we just extract the PSI equivalent scores
-    if (!lighthouseData || !lighthouseData.audits) {
+    if (!lighthouseData || !lighthouseData.audits || !lighthouseData.categories) {
         return null;
     }
 
     const audits = lighthouseData.audits;
+    const categories = lighthouseData.categories;
 
     return {
-        performanceScore: audits['categories']?.performance?.score * 100 || 0,
+        performanceScore: (categories.performance?.score || 0) * 100,
         lcp: audits['largest-contentful-paint']?.numericValue || 0,
         fcp: audits['first-contentful-paint']?.numericValue || 0,
         speedIndex: audits['speed-index']?.numericValue || 0,

@@ -62,6 +62,7 @@ async function runLighthouse(url) {
                 largestImageSnippet: largestImage,
                 unoptimizedLCP: audits['modern-image-formats']?.score < 1,
             },
+            categories: lhr.categories,
             audits: lhr.audits // raw audits for AI
         };
     } catch (error) {

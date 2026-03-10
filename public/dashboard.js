@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', initDashboard);
 async function initDashboard() {
     try {
         // In local mode, we might just be serving the static JSON from the data directory
-        const response = await fetch('/audit-data.json');
+        const response = await fetch('./audit-data.json');
         
         if (!response.ok) {
             throw new Error('Audit data not found. Run npm run audit first.');

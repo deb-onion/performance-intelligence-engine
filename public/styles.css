@@ -320,3 +320,41 @@ header h1 {
     color: #fff;
     font-weight: 600;
 }
+
+/* Print / PDF Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .app-container {
+        display: block;
+    }
+    .sidebar {
+        display: none !important;
+    }
+    .content {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        max-width: 100% !important;
+    }
+    /* Prevent panels from splitting awkwardly across PDF pages */
+    .panel {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin-bottom: 24px;
+        border: 1px solid var(--border-color);
+    }
+    /* Avoid breaking charts */
+    canvas {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        max-height: 250px !important;
+    }
+    .metrics-grid {
+        page-break-inside: avoid;
+    }
+}
