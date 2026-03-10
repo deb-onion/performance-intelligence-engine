@@ -1,4 +1,3 @@
-const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 
 async function runLighthouse(url) {
@@ -6,6 +5,10 @@ async function runLighthouse(url) {
     let chrome;
     try {
         chrome = await chromeLauncher.launch({ chromeFlags: ['--headless', '--no-sandbox'] });
+        
+        // Lighthouse 10+ is an ES Module. We must dynamically import it in CommonJS environments (like GitHub Actions Node 18).
+        const { default: lighthouse } = await import('lighthouse');
+        
         const options = {
             logLevel: 'info',
             output: 'json',
