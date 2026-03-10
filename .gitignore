@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Local env files
+.env
+.env.test
+.env.production
+.env.local
+
+# Build/Data Outputs (if you don't want to track historical data in git)
+# Note: In our current setup, pushing 'public' is fine so action has baseline,
+# but usually build artifacts aren't tracked. We track structure, let action build data.
+data/audit-data.json
+public/data/audit-data.json
+reports/*.pdf
+
+# OS junk
+.DS_Store
+Thumbs.db

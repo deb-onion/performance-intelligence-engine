@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Intelligence Engine Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Chart.js & D3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo"></div>
+                <h2>PIE <span>Analytics</span></h2>
+            </div>
+            <nav>
+                <a href="#overview" class="active">Overview</a>
+                <a href="#vitals">Core Web Vitals</a>
+                <a href="#waterfall">Waterfall Analysis</a>
+                <a href="#bundle">JS & Assets</a>
+                <a href="#recommendations">AI Diagnostics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <h1>Performance Intelligence Report</h1>
+                <div class="date-stamp" id="dateStamp">Loading data...</div>
+            </header>
+
+            <div id="loadingState">
+                <div class="spinner"></div>
+                <p>Analyzing performance data...</p>
+            </div>
+
+            <div id="dashboardContent" class="hidden">
+                <!-- Top Metrics Row -->
+                <section class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Avg Performance Score</h3>
+                        <div class="value" id="avgScore">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Fastest Page</h3>
+                        <div class="value" style="font-size: 1.2rem; word-break: break-all;" id="fastestPage">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Slowest Page</h3>
+                        <div class="value" style="font-size: 1.2rem; word-break: break-all;" id="slowestPage">--</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Pages Analyzed</h3>
+                        <div class="value" id="pagesCount">--</div>
+                    </div>
+                </section>
+
+                <div class="two-col-layout">
+                    <!-- Leaderboard -->
+                    <section class="panel list-panel">
+                        <h2>Performance Leaderboard</h2>
+                        <ul id="leaderboardList" class="leaderboard">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </section>
+
+                    <!-- Bar Chart -->
+                    <section class="panel chart-panel">
+                        <h2>Score Comparison</h2>
+                        <canvas id="scoreChart"></canvas>
+                    </section>
+                </div>
+
+                <div class="two-col-layout">
+                    <section class="panel chart-panel">
+                        <h2>LCP Comparison (ms)</h2>
+                        <canvas id="lcpChart"></canvas>
+                    </section>
+
+                    <section class="panel chart-panel">
+                        <h2>Speed Index Comparison</h2>
+                        <canvas id="speedIndexChart"></canvas>
+                    </section>
+                </div>
+
+                <!-- Waterfall Section -->
+                <section class="panel full-width">
+                    <h2>Network Waterfall Analysis</h2>
+                    <div class="selector-controls">
+                        <label for="pageSelector">Select Page:</label>
+                        <select id="waterfallPageSelector"></select>
+                    </div>
+                    <div id="waterfallContainer"></div>
+                </section>
+
+                <!-- Assets & Bundle -->
+                <div class="two-col-layout">
+                    <section class="panel chart-panel">
+                        <h2>JavaScript Payload Weight</h2>
+                        <canvas id="bundleChart"></canvas>
+                    </section>
+
+                    <section class="panel list-panel">
+                        <h2>Asset Insights</h2>
+                        <div id="assetInsightsList" class="insights-container">
+                            <!-- Populated via JS -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- AI Recommendations -->
+                <section class="panel full-width">
+                    <h2>AI-Driven Recommendations</h2>
+                    <div id="aiRecommendations" class="ai-container">
+                        <!-- Populated via JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="waterfall.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
